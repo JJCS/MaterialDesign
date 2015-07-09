@@ -11,14 +11,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import androidhive.info.materialdesign.R;
+import androidhive.info.materialdesign.adapter.ListCostAdapter;
 
 
 public class MainActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private static String TAG = MainActivity.class.getSimpleName();
+
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
@@ -27,7 +33,11 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
 
+        
+        
+        
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(mToolbar);
