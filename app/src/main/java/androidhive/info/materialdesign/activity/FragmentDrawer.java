@@ -31,9 +31,12 @@ public class FragmentDrawer extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationDrawerAdapter adapter;
+    private boolean mFromSavedInstanceState;
     private View containerView;
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
+    private int mCurrentSelectedPosition = 0;
+    private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     public FragmentDrawer() {
 
@@ -60,9 +63,33 @@ public class FragmentDrawer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        //try 07/09/2015
+        if (savedInstanceState != null) {
+            mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
+            mFromSavedInstanceState = true;
+        }
+        // Select either the default item (0) or the last selected item.
+            selectItem(mCurrentSelectedPosition);
+
+
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
     }
+
+    //try 07/09/2015
+    private void selectItem(int position) {
+        mCurrentSelectedPosition = position;
+       /* if (mDrawerListView != null) {
+            mDrawerListView.setItemChecked(position, true);
+        }*/
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(containerView);
+        }
+    }
+
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,6 +116,19 @@ public class FragmentDrawer extends Fragment {
 
         return layout;
     }
+
+    ///try 07/09/2015
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(STATE_SELECTED_POSITION, mCurrentSelectedPosition);
+    }
+
+
+
+    //end try
+
 
 
     public void setUp(int fragmentId, DrawerLayout drawerLayout, final Toolbar toolbar) {

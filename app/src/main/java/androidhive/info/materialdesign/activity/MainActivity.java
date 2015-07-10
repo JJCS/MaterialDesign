@@ -28,6 +28,8 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
 
     private Toolbar mToolbar;
     private FragmentDrawer drawerFragment;
+    static Fragment mCurrentFragment = new HomeFragment();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +51,7 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         drawerFragment.setDrawerListener(this);
 
         // display the first navigation drawer view on app launch
-        displayView(0);
+//        displayView(0);
     }
 
 
@@ -81,6 +83,16 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container_body, mCurrentFragment);
+        fragmentTransaction.commit();
+    }
+
+    @Override
     public void onDrawerItemSelected(View view, int position) {
             displayView(position);
     }
@@ -106,6 +118,8 @@ public class MainActivity extends ActionBarActivity implements FragmentDrawer.Fr
         }
 
         if (fragment != null) {
+            mCurrentFragment = fragment;
+
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container_body, fragment);
